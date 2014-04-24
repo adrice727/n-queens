@@ -15,38 +15,45 @@
 
 window.findNRooksSolution = function(n) {
 
-  // var buildBoards = function( size, first, arr1, arr2 ){
+  var buildBoards = function(size, first, arr1, arr2 ) {
 
-  //   // arr1 = arr1 || [];
-  //   // arr2 = arr2 || _.range(0, Math.power(size,2));
+  console.log("bb called");
+    //console.log('here: arr1Copy is: ' + arr1 + ' , arr2Copy is :' + filteredArr2);
 
-  //   console.log("gfhgfhfh");
+    var count = arr2.length;
 
-  //   var count = arr2.length;
+    for ( var i = 0 ; i < count; i++ ){
+      var arr1Copy = arr1.slice();
+      var arr2Copy = arr2.slice();
+      arr1Copy.push(arr2Copy.shift());
+      console.log('iteration no.' + i + ': arr1Copy is: ' + arr1Copy + ' , arr2Copy is :' + arr2Copy);
 
-  //   for ( var i = 0; i < count; i++ ) {
-  //     var arr1Copy = arr1.slice();
-  //     var arr2Copy = arr2.slice();
+      if ( arr1Copy.length === size ){
+        var board = new Board({n:n});
+        console.log('this is n: ' + board.get('n'));
+        for ( var k = 0; k < arr1Copy.length; k++){
+          board.rows()[Math.floor(arr1Copy[k]/size)][arr1Copy[k]%size] = 1;
+        }
+        if (! board.hasAnyRooksConflicts() ){
+          console.log('board', JSON.stringify(board));
+          throw board.rows();
+        }
+      } else if ( arr2copy.length > size ) {
+        buildBoards(arr1Copy, arr2Copy, size, false);
+      }
+      arr2.shift();
+    }
+  };
 
-  //     arr1Copy.push(arr2Copy.shift());
+  try{
+    buildBoards(n, true,[], _.range(0,Math.pow(n,2)));
+  }catch (firstSolution){
+    console.log("here go: " + firstSolution);
+    solution = firstSolution;
+  }
 
-  //     if ( arr1Copy.length === size ){
-  //       var board = new Board ({n: size});
-  //       for ( var j = 0; j < size; j++ ) {
-  //         board.rows()[Math.floor( arr1Copy[j] / size )][ arr1Copy[j] % size ] = 1;
-  //       }
-  //       if ( !board.hasAnyRookConflicts() ){
-  //         return board;
-  //       }
-  //     } else {
-  //       buildBoards(size, false, arr1Copy, arr2Copy);
-  //     }
-  //   }
-  // };
-
-  // var solution = buildBoards(n, true, [], _.range(0, Math.power(n,2)));
-  // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  // return solution;
+  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  return solution;
 };
 
 
@@ -56,42 +63,42 @@ window.countNRooksSolutions = function(n) {
   
   var solutionCount = 0;
 
-  var buildBoards = function( size, first, arr1, arr2 ){
+  // var buildBoards = function( size, first, arr1, arr2 ){
 
-    var count = arr2.length;
+  //   var count = arr2.length;
     
-    console.log("arr1");
-    console.log(arr1);
-    console.log("arr2");
-    console.log(arr2);
+  //   console.log("arr1");
+  //   console.log(arr1);
+  //   console.log("arr2");
+  //   console.log(arr2);
 
-    for ( var i = 0; i < count; i++ ) {
-      var arr1Copy = arr1.slice();
-      var arr2Copy = arr2.slice();
+  //   for ( var i = 0; i < count; i++ ) {
+  //     var arr1Copy = arr1.slice();
+  //     var arr2Copy = arr2.slice();
 
-      arr1Copy.push(arr2Copy.shift());
+  //     arr1Copy.push(arr2Copy.shift());
 
-      if ( arr1Copy.length === size ) {
-        console.log("create board");
-        var board = new Board({n: size});
-        for ( var k = 0; k < size; k++ ){
-          board.rows()[Math.floor( arr1Copy[k] / size )][ arr1Copy[k] % size ] = 1;
-        }
-        console.log("checking board");
-        console.log(board);
-        if ( ! board.hasAnyRooksConflicts() ) {
-          solutionCount++;
-        }
-      } else {
-        buildBoards(size, false, arr1Copy, arr2Copy);
-      }
-      arr2Copy.shift();
-    }
-  };
+  //     if ( arr1Copy.length === size ) {
+  //       console.log("create board");
+  //       var board = new Board({n: size});
+  //       for ( var k = 0; k < size; k++ ){
+  //         board.rows()[Math.floor( arr1Copy[k] / size )][ arr1Copy[k] % size ] = 1;
+  //       }
+  //       console.log("checking board");
+  //       console.log(board);
+  //       if ( ! board.hasAnyRooksConflicts() ) {
+  //         solutionCount++;
+  //       }
+  //     } else {
+  //       buildBoards(size, false, arr1Copy, arr2Copy);
+  //     }
+  //     arr2Copy.shift();
+  //   }
+  // };
   
-  buildBoards(n, true, [], _.range(0,Math.pow(n,2)));
+  // buildBoards(n, true, [], _.range(0,Math.pow(n,2)));
 
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+  // console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 
 };
