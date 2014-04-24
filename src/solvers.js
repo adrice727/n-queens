@@ -15,8 +15,34 @@
 
 window.findNRooksSolution = function(n) {
 
-  var solution = undefined; //fixme
+  var buildBoards = function( size, first, arr1, arr2 ){
 
+    // arr1 = arr1 || [];
+    // arr2 = arr2 || _.range(0, Math.power(size,2));
+
+    var count = arr2.length;
+
+    for ( var i = 0; i < count; i++ ) {
+      var arr1Copy = arr1.slice();
+      var arr2Copy = arr2.slice();
+
+      arr1Copy.push(arr2Copy.shift());
+
+      if ( arr1Copy.length === size ){
+        var board = new Board ({n: size});
+        for ( var j = 0; j < size; j++ ) {
+          board.rows()[Math.floor( arr1Copy[j] / size )][ arr1Copy[j] % size ] = 1;
+        }
+        if ( !board.hasAnyRookConflicts() ){
+          return board;
+        }
+      } else {
+        this.boardCombination(size, false, arr1Copy, arr2Copy);
+      }
+    }
+  };
+
+  var solution = buildBoards(n, true, [], _.range(0, Math.power(n,2)));
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
@@ -25,7 +51,36 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0;
+
+  var buildBoards = function( size, first, arr1, arr2 ){
+
+    // arr1 = arr1 || [];
+    // arr2 = arr2 || _.range(0, Math.power(size,2));
+
+    var count = arr2.length;
+
+    for ( var i = 0; i < count; i++ ) {
+      var arr1Copy = arr1.slice();
+      var arr2Copy = arr2.slice();
+
+      arr1Copy.push(arr2Copy.shift());
+
+      if ( arr1Copy.length === size ){
+        var board = new Board ({n: size});
+        for ( var j = 0; j < size; j++ ) {
+          board.rows()[Math.floor( arr1Copy[j] / size )][ arr1Copy[j] % size ] = 1;
+        }
+        if ( !board.hasAnyRookConflicts() ){
+          solutionCount++;
+        }
+      } else {
+        this.boardCombination(size, false, arr1Copy, arr2Copy);
+      }
+    }
+  };
+  
+  buildBoards(n, true, [], _.range(0, Math.power(n,2)));
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
@@ -51,33 +106,37 @@ window.countNQueensSolutions = function(n) {
 };
 
 // builds all possible board configurations for an n x n chess board
-window.buildBoards = function(size, arr1, arr2, first) {
+window.boardCombos = function(size, arr1, arr2, first) {
 
-  var storage = [];
+  var buildBoards = function( size, first, arr1, arr2){
+    var storage = [];
 
-  arr1 = arr1 || [];
-  arr2 = arr2 || _.range(Math.power(size,2));
+    arr1 = arr1 || [];
+    arr2 = arr2 || _.range(Math.power(size,2));
 
-  var count = arr2.length;
+    var count = arr2.length;
 
-  for ( var i = 0; i < count; i++ ) {
-    var arr1Copy = arr1.slice();
-    var arr2Copy = arr2.slice();
+    for ( var i = 0; i < count; i++ ) {
+      var arr1Copy = arr1.slice();
+      var arr2Copy = arr2.slice();
 
-    arr1Copy.push(arr2Copy.shift());
+      arr1Copy.push(arr2Copy.shift());
 
-    
+      
 
-    if ( arr1Copy.length === size ){
-      var board = new Board ({n: size});
-      for ( var j = 0; j < size; j++ ) {
-        board.rows()[Math.floor( arr1Copy[j] / size )][ arr1Copy[j] % size ] = 1;
+      if ( arr1Copy.length === size ){
+        var board = new Board ({n: size});
+        for ( var j = 0; j < size; j++ ) {
+          board.rows()[Math.floor( arr1Copy[j] / size )][ arr1Copy[j] % size ] = 1;
+        }
+        storage.push(board);
+      } else {
+        this.boardCombination(size, arr1Copy, arr2Copy, false);
       }
-      storage.push(board);
     }
-  }
+  };
 
-
+  boardCombinations(n, true);
 };
 
 

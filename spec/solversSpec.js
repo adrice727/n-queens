@@ -38,7 +38,7 @@ describe('solvers', function() {
         }
         expect(solutionBoard.hasAnyQueensConflicts()).to.be.equal(false);
       });
-
+    });
   });
 
   describe('countNQueensSolutions()', function() {
