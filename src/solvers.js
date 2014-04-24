@@ -14,6 +14,7 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 window.findNRooksSolution = function(n) {
+
   var solution = undefined; //fixme
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
@@ -48,3 +49,35 @@ window.countNQueensSolutions = function(n) {
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
+
+// builds all possible board configurations for an n x n chess board
+window.buildBoards = function(size, arr1, arr2, first) {
+
+  var storage = [];
+
+  arr1 = arr1 || [];
+  arr2 = arr2 || _.range(Math.power(size,2));
+
+  var count = arr2.length;
+
+  for ( var i = 0; i < count; i++ ) {
+    var arr1Copy = arr1.slice();
+    var arr2Copy = arr2.slice();
+
+    arr1Copy.push(arr2Copy.shift());
+
+    
+
+    if ( arr1Copy.length === size ){
+      var board = new Board ({n: size});
+      for ( var j = 0; j < size; j++ ) {
+        board.rows()[Math.floor( arr1Copy[j] / size )][ arr1Copy[j] % size ] = 1;
+      }
+      storage.push(board);
+    }
+  }
+
+
+};
+
+
