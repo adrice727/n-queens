@@ -29,14 +29,15 @@ describe('solvers', function() {
 
   describe('findNQueensSolution()', function() {
 
-    it('finds a valid solution for n of 0-8', function() {
-      _.range(1, 8).map(function(n) {
+    it('finds a valid solution for n of 1-8', function() {
+      _.range(1, 9).map(function(n) {
         var solutionBoard = new Board(findNQueensSolution(n));
-
-        expect(solutionBoard.get('n')).to.equal(n);
+        //No solutions for n = 2 or n = 3
+        if(n !== 2 && n !== 3){
+          expect(solutionBoard.get('n')).to.equal(n);
+        }
         expect(solutionBoard.hasAnyQueensConflicts()).to.be.equal(false);
       });
-    });
 
   });
 
