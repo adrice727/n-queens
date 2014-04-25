@@ -112,7 +112,7 @@ window.countNRooksSolutions = function(n) {
           board.rows()[Math.floor(arr1Copy[k]/num)][arr1Copy[k]%num] = 1;
         }
         if (! board.hasAnyRooksConflicts()){
-          //console.log('board', JSON.stringify(board));
+          console.log('board', JSON.stringify(board));
           solutionCount++;
         }
       }
